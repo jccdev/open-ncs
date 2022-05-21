@@ -1,42 +1,25 @@
 package main
 
 import (
-	"context"
 	"fmt"
+	"github.com/julienschmidt/httprouter"
+	"jcc.dev/open-ncs/internal/routes"
 	"log"
 	"net/http"
-	"os"
-
-	"github.com/jackc/pgx/v4"
-	"github.com/julienschmidt/httprouter"
 )
 
-func Index(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
-	fmt.Fprint(w, "Welcome!\n")
-}
-
-func Hello(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
-	fmt.Fprintf(w, "hello, %s!\n", ps.ByName("name"))
-}
-
-func setupDb() *pgx.Conn {
-	// urlExample := "postgres://username:password@localhost:5432/database_name"
-	conn, err := pgx.Connect(context.Background(), os.Getenv("OPEN_NCS_DB"))
-	if err != nil {
-		fmt.Fprintf(os.Stderr, "Unable to connect to database: %v\n", err)
-		os.Exit(1)
-	}
-	defer conn.Close(context.Background())
-
-	return conn
+func Ping(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
+	fmt.Fprint(w, "pong")
 }
 
 func main() {
-	conn := setupDb()
-
 	router := httprouter.New()
-	router.GET("/", Index)
-	router.GET("/hello/:name", Hello)
+	router.GET("/ping", Ping)
+	router.GET("/apps/:id", routes.GetApp)
+	router.GET("/apps", routes.GetApps)
+	router.POST("/apps", routes.PostApp)
+	router.PUT("/apps/:id", routes.PutApp)
+	router.DELETE("/apps/:id", routes.DeleteApp)
 
 	log.Fatal(http.ListenAndServe(":8080", router))
 }
