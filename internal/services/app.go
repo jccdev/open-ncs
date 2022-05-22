@@ -1,16 +1,13 @@
 package services
 
 import (
-	"gorm.io/driver/postgres"
-	"gorm.io/gorm"
+	"jcc.dev/open-ncs/internal/data_access"
 	"jcc.dev/open-ncs/internal/types/models"
-	"os"
 )
 
 func GetApp(id int32) (models.App, error) {
 	var app models.App
-	dsn := os.Getenv("OPEN_NCS_DB")
-	db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
+	db, err := data_access.GetDb()
 	if err != nil {
 		return app, err
 	}
@@ -23,8 +20,7 @@ func GetApp(id int32) (models.App, error) {
 
 func GetApps() ([]models.App, error) {
 	var apps []models.App
-	dsn := os.Getenv("OPEN_NCS_DB")
-	db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
+	db, err := data_access.GetDb()
 	if err != nil {
 		return apps, err
 	}
@@ -33,8 +29,7 @@ func GetApps() ([]models.App, error) {
 }
 
 func CreateApp(app *models.App) error {
-	dsn := os.Getenv("OPEN_NCS_DB")
-	db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
+	db, err := data_access.GetDb()
 	if err != nil {
 		return err
 	}
@@ -51,9 +46,7 @@ func CreateApp(app *models.App) error {
 
 func UpdateApp(id int32, updated models.App) (models.App, error) {
 	var forUpdate models.App
-	dsn := os.Getenv("OPEN_NCS_DB")
-	db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
-
+	db, err := data_access.GetDb()
 	if err != nil {
 		return forUpdate, err
 	}
@@ -77,8 +70,7 @@ func UpdateApp(id int32, updated models.App) (models.App, error) {
 
 func DeleteApp(appId int32) (models.App, error) {
 	var app models.App
-	dsn := os.Getenv("OPEN_NCS_DB")
-	db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
+	db, err := data_access.GetDb()
 	if err != nil {
 		return app, err
 	}

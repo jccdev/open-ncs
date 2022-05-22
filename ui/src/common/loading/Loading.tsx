@@ -1,14 +1,14 @@
 import React from 'react';
-import './Apps.scss';
+import './Loading.scss';
 
-function Apps() {
+function Loading() {
 	return (
 		<div className="container">
 			<div className="text-center">
-				<h1>Apps</h1>
+				<h1>Flows</h1>
 			</div>
 		</div>
 	);
 }
 
-export default Apps;
+export default Loading;

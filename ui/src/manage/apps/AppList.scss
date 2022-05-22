@@ -1,0 +1,20 @@
+@import '~bootstrap/scss/bootstrap';
+
+.AddCard {
+  &:hover {
+    @extend .bg-light;
+  }
+  .AddCardIcon {
+    @extend .text-secondary;
+  }
+  cursor: pointer;
+  height: 200px;
+}
+
+.AppCard {
+  &:hover {
+    @extend .bg-light;
+  }
+  cursor: pointer;
+  height: 200px;
+}
